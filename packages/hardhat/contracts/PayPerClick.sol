@@ -68,7 +68,7 @@ contract PayPerClick is Ownable{
 
         Partnership storage partnership = partnerships[_partnershipIndex];
 
-        require(partnership.totalAmount > (partnership.paidAmount + partnership.CPM), "Maximum amount paid");
+        require(partnership.totalAmount >= (partnership.paidAmount + partnership.CPM), "Maximum amount paid");
         require(partnership.status == true, "Partnership is closed");
 
         uint256 paymentAmount = convertUSDToToken(partnership.CPM, partnership.paymentToken);
@@ -122,7 +122,7 @@ contract PayPerClick is Ownable{
 
         uint256 remainingTokens = convertUSDToToken(remainingUSD, partnership.paymentToken);
 
-        IERC20(partnership.paymentToken).transfer(partnership.cc, remainingTokens);
+        IERC20(partnership.paymentToken).transfer(partnership.advertiser, remainingTokens);
 
         return true;
     }
